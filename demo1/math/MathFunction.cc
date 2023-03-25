@@ -1,5 +1,16 @@
 #include"MathFunction.h"
-double AddFun(double a,double b)
+double powFun(double a,int b)
 {
-    return a+b;
+    int result = a;
+    int i;
+
+    if (b == 0) {
+        return 1;
+    }
+
+    for(i = 1; i < b; ++i){
+        result = result * a;
+    }
+
+    return result;
 }

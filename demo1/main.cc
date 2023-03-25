@@ -10,8 +10,8 @@ int main(int argc,char *argv[])
         return 1;
     }
     double a=atof(argv[1]);
-    double b=atof(argv[2]);
-    double ret=a+b;
-    printf("%g+%g=%g\n",a,b,ret);
+    int b=atoi(argv[2]);
+    double ret=powFun(a,b);
+    printf("%g^%d=%g\n",a,b,ret);
     return 0;
 }
