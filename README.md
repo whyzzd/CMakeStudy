@@ -83,7 +83,7 @@ aux_source_directory(. DIR_LIB_SRCS)
 add_library (MathFunctions ${DIR_LIB_SRCS})
 ```
 
-以上对应Demo1
+*以上对应demo1.*
 
 #### **自定义编译选项**
 
@@ -131,3 +131,28 @@ target_link_libraries (Demo  ${EXTRA_LIBS})
 - 第17行根据 `USE_MYMATH` 变量的值来决定是否使用我们自己编写的 MathFunctions 库。
 
 2.生成makefile文件可以专门弄一个文件夹进行存放生成的的文件(需要注意源文件中头文件中包含路径)：可在根目录下创建build文件夹，进入build文件夹后输入`cmake ..`即可在此文件夹下生成make文件，然后执行`make`命令即可完成编译，`./Demo 参数1 参数2`完成调用。	
+
+*以上对应demo2.*
+
+#### **定制安装规则**
+
+1.首先先在 math/CMakeLists.txt 文件里最后添加下面两行：
+
+```
+# 指定 MathFunctions 库的安装路径
+install (TARGETS MathFunctions DESTINATION bin)
+install (FILES MathFunctions.h DESTINATION include)
+```
+
+指明 MathFunctions 库的安装路径。之后同样修改根目录的 CMakeLists 文件，在末尾添加下面几行：
+
+```
+# 指定安装路径
+install (TARGETS Demo DESTINATION bin)
+install (FILES "${PROJECT_BINARY_DIR}/config.h"
+         DESTINATION include)
+```
+
+2.在修改之后，执行`cmake ..`，然后执行`sudo make install`，即可将文件安装至`/usr/local/bin和/usr/local/include`(目录有可能略有不同)，此时不需要带目录就可以执行程序。
+
+以上对应demo3
