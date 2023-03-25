@@ -155,4 +155,37 @@ install (FILES "${PROJECT_BINARY_DIR}/config.h"
 
 2.在修改之后，执行`cmake ..`，然后执行`sudo make install`，即可将文件安装至`/usr/local/bin和/usr/local/include`(目录有可能略有不同)，此时不需要带目录就可以执行程序。
 
-以上对应demo3
+*以上对应demo3*
+
+#### **定制安装规则**
+
+1.在CMakeLists中添加以下代码：
+
+```
+# 启用测试
+enable_testing()
+
+# 测试程序是否成功运行
+add_test (test_run Demo 5 2)
+
+# 测试帮助信息是否可以正常提示
+add_test (test_usage Demo)
+set_tests_properties (test_usage
+  PROPERTIES PASS_REGULAR_EXPRESSION "参数错误")
+
+# 定义一个宏，用来简化测试工作
+macro (do_test arg1 arg2 result)
+  add_test (test_${arg1}_${arg2} Demo ${arg1} ${arg2})
+  set_tests_properties (test_${arg1}_${arg2}
+    PROPERTIES PASS_REGULAR_EXPRESSION ${result})
+endmacro (do_test)
+ 
+# 使用该宏进行一系列的数据测试
+do_test (5 2 "=25")
+do_test (10 5 "=100000")
+do_test (2 10 "=1024")
+```
+
+2.在build文件夹中编译之后，使用`make test`可开始进行测试
+
+*以上对应demo4*
