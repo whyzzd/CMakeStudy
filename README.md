@@ -157,7 +157,7 @@ install (FILES "${PROJECT_BINARY_DIR}/config.h"
 
 *以上对应demo3*
 
-#### **定制安装规则**
+#### **为工程添加测试**
 
 1.在CMakeLists中添加以下代码：
 
@@ -189,3 +189,46 @@ do_test (2 10 "=1024")
 2.在build文件夹中编译之后，使用`make test`可开始进行测试
 
 *以上对应demo4*
+
+#### **生成安装包**
+
+1.首先在顶层的 CMakeLists.txt 文件尾部添加下面几行：
+
+```
+# 构建一个 CPack 安装包
+include (InstallRequiredSystemLibraries)
+# 这是可生成的安装的版本号信息                       
+set(CPACK_PACKAGE_VERSION "1.0.0") 
+include (CPack)
+```
+
+- 生成二进制安装包命令：
+
+```
+cpack -C CPackConfig.cmake
+```
+
+- 生成源码安装包
+
+```
+cpack -C CPackSourceConfig.cmake
+```
+
+2.若执行`cpack -C CPackConfig.cmake`则会在当前目录下生成3个不同格式的二进制包文件
+
+```
+xxx@xxx-virtual-machine:~/2023/month3/demo5/build$ ls Demo5-*
+Demo5-1.0.0-Linux.sh  Demo5-1.0.0-Linux.tar.gz  Demo5-1.0.0-Linux.tar.Z
+```
+
+3.此时可以使用`sh Demo5-1.0.0-Linux.sh `安装到当前目录
+
+4.安装完成可以执行以下命令查看结果
+
+```
+xxx@xxx-virtual-machine:~/2023/month3/demo5/build$ ./Demo5-1.0.0-Linux/bin/Demo  5 2
+Now we use the standard library. 
+5^2=25
+```
+
+*以上对应demo5*
